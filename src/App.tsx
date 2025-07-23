@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme-provider';
-import HomePage from './pages/HomePage';
+import SimpleHomePage from './pages/SimpleHomePage';
 import LoginPage from './pages/LoginPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
@@ -29,7 +29,7 @@ function App() {
           <div className="min-h-screen bg-background font-sans antialiased">
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<SimpleHomePage />} />
               <Route path="/login" element={<LoginPage />} />
               
               {/* Customer Routes */}
