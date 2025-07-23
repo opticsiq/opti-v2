@@ -15,6 +15,9 @@ export default function HomePage() {
               <h1 className="text-2xl font-bold text-gray-900">Opti</h1>
             </div>
             <div className="flex items-center gap-4">
+              <Link to="/test">
+                <Button variant="ghost" size="sm">اختبار الاتصال</Button>
+              </Link>
               <Link to="/login">
                 <Button variant="outline">تسجيل الدخول</Button>
               </Link>

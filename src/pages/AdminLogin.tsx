@@ -19,16 +19,28 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { authAPI } = await import('@/lib/api');
+      const response = await authAPI.login(email, password);
       
-      if (email === 'admin@test.com' && password === 'admin123') {
-        toast.success('تم تسجيل دخول المدير بنجاح!');
-        navigate('/admin/dashboard');
-      } else {
-        toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      // Check if user is admin
+      if (response.user.role !== 'admin') {
+        toast.error('هذا الحساب ليس حساب مدير');
+        return;
       }
-    } catch (error) {
-      toast.error('حدث خطأ أثناء تسجيل الدخول');
+      
+      // Store token and user data
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+      
+      toast.success('تم تسجيل دخول المدير بنجاح!');
+      navigate('/admin/dashboard');
+    } catch (error: any) {
+      console.error('Admin login error:', error);
+      if (error.response?.status === 401) {
+        toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      } else {
+        toast.error('حدث خطأ أثناء تسجيل الدخول. تأكد من تشغيل الخادم.');
+      }
     } finally {
       setIsLoading(false);
     }

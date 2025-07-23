@@ -10,6 +10,7 @@ import OrdersPage from './pages/OrdersPage';
 import EarningsPage from './pages/EarningsPage';
 import ProfilePage from './pages/ProfilePage';
 import NewOrderPage from './pages/NewOrderPage';
+import TestConnection from './pages/TestConnection';
 import './styles/globals.css';
 
 const queryClient = new QueryClient({
@@ -40,6 +41,9 @@ function App() {
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              
+              {/* Test Route */}
+              <Route path="/test" element={<TestConnection />} />
               
               {/* Redirect unknown routes */}
               <Route path="*" element={<Navigate to="/" replace />} />

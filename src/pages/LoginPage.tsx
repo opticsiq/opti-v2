@@ -19,17 +19,28 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { authAPI } = await import('@/lib/api');
+      const response = await authAPI.login(email, password);
       
-      if (email === 'customer@test.com' && password === 'password123') {
-        toast.success('تم تسجيل الدخول بنجاح!');
-        navigate('/orders');
+      // Store token and user data
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+      
+      toast.success('تم تسجيل الدخول بنجاح!');
+      
+      // Redirect based on user role
+      if (response.user.role === 'admin') {
+        navigate('/admin/dashboard');
       } else {
-        toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        navigate('/orders');
       }
-    } catch (error) {
-      toast.error('حدث خطأ أثناء تسجيل الدخول');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.response?.status === 401) {
+        toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      } else {
+        toast.error('حدث خطأ أثناء تسجيل الدخول. تأكد من تشغيل الخادم.');
+      }
     } finally {
       setIsLoading(false);
     }
